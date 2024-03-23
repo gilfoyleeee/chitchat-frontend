@@ -5,7 +5,7 @@ import { BiSearch } from "react-icons/bi";
 import { TbMessageCircle2Filled } from "react-icons/tb";
 import { MdNotifications, MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { GiTeamIdea } from "react-icons/gi";
+import { MdGroups } from "react-icons/md";
 import { MdExplore } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -152,13 +152,6 @@ const LeftSide = ({ socket }) => {
     <>
       <div className="hidden md:w-[25%] md:flex flex-col gap-y-10 sticky top-10 h-max">
         {/* logo */}
-        {/* <Link to="/"> */}
-          {/* <div className="w-full flex gap-x-2 items-center justify-center cursor-pointer select-none">
-            <span className="text-orange font-poppins font-bold text-xl md:text-2xl tracking-wide leading-relaxed">
-              Chit
-            </span>
-            <span className="font-poppins text-black text-base">Chat</span>
-          </div> */}
           <div className="w-full flex gap-x-2 items-center justify-center cursor-pointer select-none">
             <img
               src="http://localhost:3000/images/logo.png"
@@ -167,14 +160,23 @@ const LeftSide = ({ socket }) => {
           </div>
         {/* </Link> */}
         {/* icons  */}
-        <div className="w-full flex flex-col items-center justify-center">
-          <div className="flex flex-col items-start justify-center gap-y-6 select-none">
+        <div className="w-full flex flex-col items-center justify-center ">
+          <div className="flex flex-col items-start justify-center gap-y-6 select-none ">
             <Link to="/home">
-              <div className="flex gap-x-4 items-center justify-center cursor-pointer">
+              <div className="flex flex-row rounded-md gap-x-2 w-full space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#eaeaeb] hover:text-black">
                 <i>
                   <TbMessageCircle2Filled color="#2D99FF" size={25} />
                 </i>
                 <span className="font-poppins">Chats</span>
+              </div>
+            </Link>
+
+            <Link to="/group">
+              <div className="flex gap-x-4 items-center justify-center cursor-pointer">
+                <i>
+                  <MdGroups color="#2D99FF" size={25} />
+                </i>
+                <span className="font-poppins">Group</span>
               </div>
             </Link>
 
@@ -184,15 +186,6 @@ const LeftSide = ({ socket }) => {
                   <MdExplore color="#2D99FF" size={25} />
                 </i>
                 <span className="font-poppins">Explore</span>
-              </div>
-            </Link>
-
-            <Link to="/group">
-              <div className="flex gap-x-4 items-center justify-center cursor-pointer">
-                <i>
-                  <GiTeamIdea color="#2D99FF" size={25} />
-                </i>
-                <span className="font-poppins">Group</span>
               </div>
             </Link>
 
@@ -220,7 +213,7 @@ const LeftSide = ({ socket }) => {
               <i>
                 <MdLogout color="#2D99FF" size={25} />
               </i>
-              <span className="font-poppins">Logout</span>
+              <span className="font-poppins">Log out</span>
             </div>
           </div>
         </div>

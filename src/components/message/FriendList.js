@@ -24,7 +24,7 @@ const Conversation = ({ conversation, id }) => {
 
   return (
     <>
-      <div className="flex flex-row rounded-md gap-x-2 w-full p-3 space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#2D99FF] hover:text-white">
+      <div className="flex flex-row rounded-md gap-x-2 w-full p-3 space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#eaeaeb] hover:text-black">
         <div className="w-[20%]">
           {profilePhoto == "" ? (
             <img
@@ -50,49 +50,6 @@ const Conversation = ({ conversation, id }) => {
           <span className="text-xs font-poppins">Select to chat</span>
         </div>
       </div>
-
-      {/* <div className="flex flex-row gap-x-2 w-full p-3 space-x-2 items-start justify-end select-none cursor-pointer">
-        {/* message conversation start--  */}
-      {/* <div
-        className=""
-        onClick={(e) => {
-          e.preventDefault();
-          // setShowConversation(true);
-        }}
-      > */}
-
-      {/* <div className="">
-            <div className="">
-              {profilePhoto == "" ? (
-                <img
-                  src="http://localhost:3000/images/user.png"
-                  className="w-[3rem] h-[3rem] rounded-full"
-                />
-              ) : (
-                <img
-                  src={`http://localhost:5000/${profilePhoto.replace(
-                    "public\\",
-                    ""
-                  )}`}
-                  className="w-[3rem] h-[3rem] rounded-full"
-                />
-              )}
-            </div> */}
-      {/* right  */}
-      {/* <div className="message-conversation-body-right">
-              <div className="message-conversation-content">
-                <div className="message-conversation-owner">
-                  <span className="message-conversation-owner-text">
-                    {user}
-                  </span>
-                  <span className="online-offline">friend</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-      {/* message conversation end --  */}
-      {/* </div> */}
     </>
   );
 };

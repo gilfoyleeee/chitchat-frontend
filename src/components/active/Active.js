@@ -108,7 +108,7 @@ const Active = ({ socket }) => {
                 ))
               ) : (
                 <div className="text-center font-poppins">
-                  No online users found
+                  No active users found
                 </div>
               )}
             </div>

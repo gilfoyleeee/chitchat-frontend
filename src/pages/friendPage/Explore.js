@@ -89,7 +89,7 @@ function Explore({ socket }) {
 
   return (
     <div className="bg-white w-full flex items-center justify-center mt-1 md:mt-[6rem]">
-      <div className="flex flex-col md:flex-row xl:w-[85%] 2xl:w-[75%] gap-x-4 p-0 md:p-5">
+      <div className="flex flex-col md:flex-row xl:w-[75%] 2xl:w-[80%] gap-x-4 p-0 md:p-5 mt-[-75px]">
         {/* LeftSide component */}
         <LeftSide socket={socket} />
 

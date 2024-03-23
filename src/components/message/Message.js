@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { IoSend } from "react-icons/io5";
 import axios from "axios";
 // import "./message.css";
-import Conversation from "./Conversation";
+import Conversation from "./FriendList";
 import { format } from "timeago.js";
 import { BiPhoneCall } from "react-icons/bi";
 import Peer from "peerjs";
@@ -69,11 +69,7 @@ const Message = ({ socket }) => {
   const [sendCall, setSendCall] = useState(false);
 
   const chatRef = useRef(null);
-
-  // useEffect(() => {
-  //   chatRef?.current.scrollTop = chatRef?.current?.scrollHeight;
-  // }, [messageCombo]);
-
+  
   useEffect(() => {
     if (isConnected) {
       setSendCall(false);
@@ -241,10 +237,10 @@ const Message = ({ socket }) => {
   }, []);
 
   const connectToPeer = () => {
-    console.log("coone to peer", otherPeerId)
+    console.log("Connecting to peer", otherPeerId);
     const conn = peerRef.current.connect(otherPeerId);
     conn.on("open", () => {
-      console.log("Connected to another peer second!");
+      console.log("Connected to another peer!");
       setIsConnected(true);
       setOnGoingCalling(false);
       console.log(conn.peer);
@@ -275,27 +271,46 @@ const Message = ({ socket }) => {
       });
   };
 
-  // hangupFunction
   const hangupFunction = (e) => {
     e.preventDefault();
-    // Stop the local stream
+
+    // console.log("Hangup initiated");
+
+    // // Stop and clear the local stream for the hung-up user
     const localStream = localVideoRef.current.srcObject;
     if (localStream) {
       localStream.getTracks().forEach((track) => track.stop());
+      localVideoRef.current.srcObject = null;
+      console.log("Local stream stopped");
     }
 
-    // Clear the local video source
-    localVideoRef.current.srcObject = null;
 
-    // Close the PeerJS connection and notify the remote peer
+    // // Stop and clear the remote stream for the other user
+    // const remoteStream = remoteVideoRef.current.srcObject;
+    // if (remoteStream) {
+    //   remoteStream.getTracks().forEach((track) => track.stop());
+    //   remoteVideoRef.current.srcObject = null;
+    //   console.log("Remote stream stopped");
+    // }
+
+    // Close the PeerJS connection and notify the other user
     if (peerRef.current) {
       peerRef.current.destroy();
       peerRef.current = null;
-
-      // Clear the remote video source
-      remoteVideoRef.current.srcObject = null;
+      console.log("PeerJS connection closed");
     }
 
+    // // Close the video modal on the local side
+    setIsVideoModalOpen(false);
+
+    // // Send a signaling message to the remote peer(s) to inform them about the call hangup
+    // socket.emit("call-hangup", { receiverId: otherPeerId });
+
+    // Clear the UI to reflect call hangup
+    setIsConnected(false);
+    setOnGoingCalling(false);
+
+    // // Reload the window or perform other necessary actions
     window.location.reload();
   };
 
@@ -369,6 +384,33 @@ const Message = ({ socket }) => {
               </div>
             ))}
           </div>
+          {sendCall ? (
+            <>
+              <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-2xl">
+                <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                  {/* //notification  */}
+                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none pb-5 z-50">
+                    {/*header*/}
+                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                      <span className="font-poppins">
+                        <button
+                          // onClick={connectToPeer}
+                          className="flex items-center justify-center gap-x-2"
+                        >
+                          Calling{" "}
+                          <BsFillTelephoneFill color="green" size={20} />
+                          <span className="font-bold text-orange">
+                            {userId}
+                          </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            </>
+          ) : null}
 
           {onGoingCalling ? (
             <>
@@ -450,7 +492,7 @@ const Message = ({ socket }) => {
                     </div>
                   </div>
                 </div>
-                <hr className="border-t-[1px] border-orange"/>
+                <hr className="border-t-[1px] border-orange" />
 
                 {/* message body start */}
                 <div
@@ -522,17 +564,27 @@ const Message = ({ socket }) => {
         {/* <div className="flex w-[100%] h-screen gap-x-5 bg-blue-300"> */}
         {isVideoModalOpen && (
           <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md">
-              <div className="flex flex-col gap-y-10 items-center justify-center">
-                <div className="flex items-center justify-center gap-x-4 mt-4">
-                  <div className="w-[50%] flex flex-col items-center justify-center">
-                    <video ref={localVideoRef} autoPlay playsInline></video>
+            <div className="bg-white rounded-lg shadow-lg p-8 w-[800px] h-[600px]">
+              <div className="flex flex-col gap-y-10 items-center justify-center h-full">
+                <div className="flex items-center justify-center gap-x-4 mt-4 w-full">
+                  <div className="w-1/2 flex flex-col items-center justify-center">
+                    <video
+                      ref={localVideoRef}
+                      autoPlay
+                      playsInline
+                      className="w-full h-[300px] object-cover"
+                    ></video>
                     <span className="font-poppins mt-3">
                       {userId && <>{userId} camera</>}
                     </span>
                   </div>
-                  <div className="w-[50%] items-center justify-center flex flex-col">
-                    <video ref={remoteVideoRef} autoPlay playsInline></video>
+                  <div className="w-1/2 flex flex-col items-center justify-center">
+                    <video
+                      ref={remoteVideoRef}
+                      autoPlay
+                      playsInline
+                      className="w-full h-[300px] object-cover"
+                    ></video>
                     <span className="font-poppins mt-3">
                       {otherUserId} camera
                     </span>

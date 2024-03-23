@@ -132,7 +132,7 @@ const LoginSignup = ({ setUserDetails }) => {
                   .typeString("New to ChitChat? Please register...")
                   .pauseFor(1000)
                   .deleteAll()
-                  .typeString("Already a member? Login to Connect.. ")
+                  .typeString("Already a member? Login to Connect... ")
                   .pauseFor(1000)
                   .deleteAll()
                   .start();
@@ -140,7 +140,7 @@ const LoginSignup = ({ setUserDetails }) => {
             />
           </div>
         </div>
-        <div className="buttons">
+        <div className="buttons" style={{ marginLeft: "75px" }}>
           <div className="btn-1">
             <Button
               variant="contained"
@@ -158,9 +158,9 @@ const LoginSignup = ({ setUserDetails }) => {
               variant="contained"
               endIcon={<AssignmentIndIcon />}
               sx={{
-                backgroundColor: "#6A906E",
+                backgroundColor: "#50b55c",
                 "&:hover": {
-                  backgroundColor: "#50b55c",
+                  backgroundColor: "#6A906E",
                   borderColor: "#0062cc",
                   boxShadow: "none",
                 },
@@ -178,11 +178,11 @@ const LoginSignup = ({ setUserDetails }) => {
           <DialogTitle>
             <div className="dialog-title-logo">
               <div className="dialog-logo">
-                <img src="/images/logo.png" className="dialog-logo" />
+                <img src="/images/logo.png" className="dialog-logo w-50 h-15" />
               </div>
               <div className="dialog-title">
                 <span className="dialog-title-text-login">
-                  Log-in to your account
+                  LOGIN TO CHITCHAT
                 </span>
               </div>
             </div>
@@ -257,6 +257,19 @@ const LoginSignup = ({ setUserDetails }) => {
             >
               <span className="login-button">Login</span>
             </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                setLoginDialog(false);
+                window.location.reload();
+              }}
+              variant="contained" color="error"
+              disableElevation
+              fullWidth
+              sx={{ mt: 1.5 }}
+            >
+              <span className="cancel-button text-white">Cancel</span>
+            </Button>
           </DialogContent>
           <Container>
             {loginSignupDetails.loginStatus === "pending" ? (
@@ -273,17 +286,18 @@ const LoginSignup = ({ setUserDetails }) => {
               </Alert>
             ) : null}
           </Container>
-          <DialogActions>
+          {/* <DialogActions>
             <Button
               onClick={(e) => {
                 e.preventDefault();
                 setLoginDialog(false);
                 window.location.reload();
               }}
+              variant="contained" color="error"
             >
-              <span className="cancel-button">Cancel</span>
+              <span className="cancel-button text-white">Cancel</span>
             </Button>
-          </DialogActions>
+          </DialogActions> */}
         </Dialog>
         {/* *********** */}
 
@@ -296,7 +310,7 @@ const LoginSignup = ({ setUserDetails }) => {
               </div>
               <div className="dialog-title">
                 <span className="dialog-title-text-signup">
-                  create your account
+                  GET STARTED WITH CHITCHAT
                 </span>
               </div>
             </div>
@@ -431,7 +445,21 @@ const LoginSignup = ({ setUserDetails }) => {
               }}
               onClick={handleSignup}
             >
-              <span className="login-signup-button">Signup</span>
+              <span className="login-signup-button">REGISTER</span>
+            </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                setSignupDialog(false);
+                window.location.reload();
+              }}
+              variant="contained" color="error"
+              disableElevation
+              fullWidth
+              sx={{ mt: 1.5,
+               }}
+            >
+              <span className="cancel-button text-white">Cancel</span>
             </Button>
           </DialogContent>
           <Container>
@@ -449,17 +477,19 @@ const LoginSignup = ({ setUserDetails }) => {
               </Alert>
             ) : null}
           </Container>
-          <DialogActions>
+          {/* <DialogActions>
             <Button
               onClick={(e) => {
                 e.preventDefault();
                 setSignupDialog(false);
                 window.location.reload();
               }}
+              variant="contained"
+              color="error"
             >
-              <span className="cancel-button">Cancel</span>
+              <span className="cancel-button text-white">Cancel</span>
             </Button>
-          </DialogActions>
+          </DialogActions> */}
         </Dialog>
 
         {/* ************* */}

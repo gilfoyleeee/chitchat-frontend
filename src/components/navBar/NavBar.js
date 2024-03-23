@@ -120,7 +120,7 @@ const NavBar = ({ socket }) => {
   //notification mark all as read
   const markAsReadHandler = () => {
     alert(
-      "Once you click 'mark all as read' your notification will be deleted from databases"
+      "Once you click 'mark all as read' your notification will be deleted from database."
     );
     axios({
       method: "get",
@@ -189,7 +189,7 @@ const NavBar = ({ socket }) => {
                   />
                 </div>
               </div>
-              <div className="nav-explore-frnd">
+              <div className="nav-explore-frnd" >
                 <Button
                   variant="contained"
                   endIcon={<ExitToAppIcon />}
@@ -203,7 +203,7 @@ const NavBar = ({ socket }) => {
                   }}
                   onClick={logOutHandler}
                 >
-                  <span className="btn-text">Log Out</span>
+                  <span className="btn-text" >Log Out</span>
                 </Button>
               </div>
 
