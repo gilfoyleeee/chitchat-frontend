@@ -7,7 +7,6 @@ import {
   CircularProgress,
   Container,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -28,11 +27,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../feature/userReducer";
 import { signupUser } from "../../feature/userReducer";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 
 const LoginSignup = ({ setUserDetails }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  //for snackbar
 
   const [signupDialog, setSignupDialog] = useState(false);
   const [loginDialog, setLoginDialog] = useState(false);
@@ -74,9 +75,20 @@ const LoginSignup = ({ setUserDetails }) => {
       email: loginEmail,
       password: loginPassword,
     };
-    dispatch(loginUser(loginDetails));
-    setLoginEmail("");
-    setLoginPassword("");
+    setIsLoggingIn(true);
+    dispatch(loginUser(loginDetails))
+      .then(() => {
+        setTimeout(() => {
+          setIsLoggingIn(false);
+        }, 3000);
+        setLoginEmail("");
+        setLoginPassword("");
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          setIsLoggingIn(false);
+        }, 3000);
+      });
   };
 
   //after login
@@ -255,7 +267,11 @@ const LoginSignup = ({ setUserDetails }) => {
               sx={{ mt: 1.5 }}
               onClick={handleLogin}
             >
-              <span className="login-button">Login</span>
+              {isLoggingIn ? (
+                <CircularProgress size={24} sx={{ color: "white" }} />
+              ) : (
+                <span className="login-button">Login</span>
+              )}
             </Button>
             <Button
               onClick={(e) => {
@@ -263,7 +279,8 @@ const LoginSignup = ({ setUserDetails }) => {
                 setLoginDialog(false);
                 window.location.reload();
               }}
-              variant="contained" color="error"
+              variant="contained"
+              color="error"
               disableElevation
               fullWidth
               sx={{ mt: 1.5 }}
@@ -271,7 +288,7 @@ const LoginSignup = ({ setUserDetails }) => {
               <span className="cancel-button text-white">Cancel</span>
             </Button>
           </DialogContent>
-          <Container>
+          {/* <Container>
             {loginSignupDetails.loginStatus === "pending" ? (
               <CircularProgress size={30} />
             ) : null}
@@ -285,19 +302,7 @@ const LoginSignup = ({ setUserDetails }) => {
                   : "server problem 404 error!!"}
               </Alert>
             ) : null}
-          </Container>
-          {/* <DialogActions>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                setLoginDialog(false);
-                window.location.reload();
-              }}
-              variant="contained" color="error"
-            >
-              <span className="cancel-button text-white">Cancel</span>
-            </Button>
-          </DialogActions> */}
+          </Container> */}
         </Dialog>
         {/* *********** */}
 
@@ -453,11 +458,11 @@ const LoginSignup = ({ setUserDetails }) => {
                 setSignupDialog(false);
                 window.location.reload();
               }}
-              variant="contained" color="error"
+              variant="contained"
+              color="error"
               disableElevation
               fullWidth
-              sx={{ mt: 1.5,
-               }}
+              sx={{ mt: 1.5 }}
             >
               <span className="cancel-button text-white">Cancel</span>
             </Button>
@@ -477,22 +482,7 @@ const LoginSignup = ({ setUserDetails }) => {
               </Alert>
             ) : null}
           </Container>
-          {/* <DialogActions>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                setSignupDialog(false);
-                window.location.reload();
-              }}
-              variant="contained"
-              color="error"
-            >
-              <span className="cancel-button text-white">Cancel</span>
-            </Button>
-          </DialogActions> */}
         </Dialog>
-
-        {/* ************* */}
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import "./message.css";
 const Conversation = ({ conversation, id }) => {
   const [user, setUser] = useState(null);
   const [profilePhoto, setProfilePhoto] = useState("");
+  const [newMessage, setNewMessage] = useState(false);
 
   useEffect(() => {
     //filter the conversation which contains my id to get friends id
@@ -22,9 +23,25 @@ const Conversation = ({ conversation, id }) => {
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    // Listen for new message event or update newMessage state accordingly
+    // Example: Assuming you receive a new message event from the server
+    const handleNewMessage = () => {
+      setNewMessage(true);
+    };
+
+    // Add event listener or subscribe to new message event
+    // ...
+
+    // Clean up event listener or unsubscribe from new message event
+    return () => {
+      // ...
+    };
+  }, []);
+
   return (
     <>
-      <div className="flex flex-row rounded-md gap-x-2 w-full p-3 space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#eaeaeb] hover:text-black">
+      <div className="flex flex-row rounded-md gap-x-2 w-full p-3 space-x-2 items-start justify-end select-none cursor-pointer ">
         <div className="w-[20%]">
           {profilePhoto == "" ? (
             <img
@@ -47,7 +64,7 @@ const Conversation = ({ conversation, id }) => {
               {user}
             </span>
           </div>
-          <span className="text-xs font-poppins">Select to chat</span>
+          <span className="text-xs font-poppins">{newMessage ? "New Message" : "Select to chat"}</span>
         </div>
       </div>
     </>

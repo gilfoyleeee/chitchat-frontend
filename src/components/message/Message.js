@@ -69,7 +69,7 @@ const Message = ({ socket }) => {
   const [sendCall, setSendCall] = useState(false);
 
   const chatRef = useRef(null);
-  
+
   useEffect(() => {
     if (isConnected) {
       setSendCall(false);
@@ -284,7 +284,6 @@ const Message = ({ socket }) => {
       console.log("Local stream stopped");
     }
 
-
     // // Stop and clear the remote stream for the other user
     // const remoteStream = remoteVideoRef.current.srcObject;
     // if (remoteStream) {
@@ -356,7 +355,9 @@ const Message = ({ socket }) => {
             {conversationList.map((val) => (
               <div
                 className={`${
-                  clickedId === val._id ? "bg-orange text-white" : "bg-white"
+                  clickedId === val._id
+                    ? "bg-orange text-white"
+                    : "hover:bg-[#eaeaeb] hover:text-black"
                 } rounded-md mb-[0.5rem] w-[95%]`}
                 key={val._id}
                 onClick={(e) => {
@@ -445,7 +446,7 @@ const Message = ({ socket }) => {
             {!showConversation ? (
               <div className="flex flex-col gap-y-2">
                 <span className="font-poppins font-bold">
-                  Select one conversation
+                  Select a conversation
                 </span>
                 <img
                   src="http://localhost:3000/images/conversationSVG1.svg"
@@ -508,21 +509,38 @@ const Message = ({ socket }) => {
                           : "flex justify-start"
                       }`}
                     >
-                      <div
-                        className={`${
-                          val.senderId === userId
-                            ? "bg-gray-300 text-black rounded-md max-w-[70%]"
-                            : "bg-orange text-white rounded-md max-w-[70%]"
-                        }`}
-                      >
-                        <span className="text-sm font-poppins p-2 ">
-                          {val.msg}
-                        </span>
-                        <div className="mt-2 bg-[#f9fafb] text-black">
-                          <span className="text-[0.65rem] font-poppins">
-                            {format(val.createdAt)}
+                      <div className="flex gap-x-2">
+                        {val.senderId !== userId && ( // Render friend's profile pic for receiver's message
+                          <img
+                            src={`http://localhost:5000/${friendProfilepic.replace(
+                              "public\\",
+                              ""
+                            )}`}
+                            className="w-[3rem] h-[3rem] rounded-full"
+                          />
+                        )}
+                        <div
+                          className={`${
+                            val.senderId === userId // Check if sender is you (userId)
+                              ? "bg-gray-300 text-black rounded-md max-w-[70%] self-end"
+                              : "bg-orange text-white rounded-md max-w-[70%]"
+                          }`}
+                        >
+                          <span className="text-sm font-poppins p-2 ">
+                            {val.msg}
                           </span>
+                          <div className="mt-2 bg-[#f9fafb] text-black">
+                            <span className="text-[0.65rem] font-poppins">
+                              {format(val.createdAt)}
+                            </span>
+                          </div>
                         </div>
+                        {val.senderId === userId && ( // Render your profile pic for sender's message
+                          <img
+                            src="http://localhost:3000/images/user.png"
+                            className="w-[3rem] h-[3rem] rounded-full"
+                          />
+                        )}
                       </div>
                     </div>
                   ))}

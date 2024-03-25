@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { BiSearch } from "react-icons/bi";
-import { TbMessageCircle2Filled } from "react-icons/tb";
+import { IoChatbubblesSharp } from "react-icons/io5";
 import { MdNotifications, MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { MdGroups } from "react-icons/md";
 import { MdExplore } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
+import { IoMdCloseCircle } from "react-icons/io";
 
 // import Search from "./Search";
 // import Notification from "./Notification";
@@ -61,7 +61,7 @@ const LeftSide = ({ socket }) => {
           setUsername(result.data.findUserDetails.username);
           setProfilePhoto(result.data.findUserDetails.profilePic);
           // socket io send client id and get online users
-          socket.emit("clientUsername", {
+          socket?.emit("clientUsername", {
             username: result.data.findUserDetails.username,
             userId: userId,
           });
@@ -152,12 +152,12 @@ const LeftSide = ({ socket }) => {
     <>
       <div className="hidden md:w-[25%] md:flex flex-col gap-y-10 sticky top-10 h-max">
         {/* logo */}
-          <div className="w-full flex gap-x-2 items-center justify-center cursor-pointer select-none">
-            <img
-              src="http://localhost:3000/images/logo.png"
-              className="w-[8rem]"
-            />
-          </div>
+        <div className="w-full flex gap-x-2 items-center justify-center cursor-pointer select-none">
+          <img
+            src="http://localhost:3000/images/logo.png"
+            className="w-[8rem]"
+          />
+        </div>
         {/* </Link> */}
         {/* icons  */}
         <div className="w-full flex flex-col items-center justify-center ">
@@ -165,7 +165,7 @@ const LeftSide = ({ socket }) => {
             <Link to="/home">
               <div className="flex flex-row rounded-md gap-x-2 w-full space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#eaeaeb] hover:text-black">
                 <i>
-                  <TbMessageCircle2Filled color="#2D99FF" size={25} />
+                  <IoChatbubblesSharp color="#2D99FF" size={25} />
                 </i>
                 <span className="font-poppins">Chats</span>
               </div>
@@ -205,6 +205,7 @@ const LeftSide = ({ socket }) => {
               </i>
               <span className="font-poppins">Notifications</span>
             </div>
+            {/* Render Notification component conditionally */}
 
             <div
               className="flex gap-x-4 items-center justify-center cursor-pointer"
@@ -246,9 +247,9 @@ const LeftSide = ({ socket }) => {
                       Notifications
                     </span>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mr-2">
                     <span
-                      className="py-2 px-4 bg-orange text-white font-poppins text-[0.75rem] flex items-center justify-center rounded-b-lg cursor-pointer"
+                      className="py-2 px-2 my-2 bg-orange text-white font-poppins text-[0.75rem] flex items-center justify-center rounded-md cursor-pointer"
                       onClick={markAsReadHandler}
                     >
                       Mark all as read
@@ -259,9 +260,9 @@ const LeftSide = ({ socket }) => {
                     className="p-1 ml-auto float-right"
                     onClick={() => setNotificationBar(false)}
                   >
-                    <AiOutlineClose
+                    <IoMdCloseCircle
                       size={30}
-                      className="text-red-900 block cursor-pointer"
+                      className="text-red-700 block cursor-pointer hover:text-red-900 my-1.5 rounded-md"
                     />
                   </i>
                 </div>

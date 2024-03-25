@@ -9,6 +9,9 @@ const Notification = ({ notification, socket }) => {
   //userId
   const [userId, setUserId] = useState("");
 
+  // State to control blur effect
+  const [isBlurred, setIsBlurred] = useState(false);
+
   // getting userId
   useEffect(() => {
     axios({
@@ -81,12 +84,13 @@ const Notification = ({ notification, socket }) => {
 
   return (
     <>
-      <div className="notification-body-content">
-        <div className="notification-img">
-          {profilePhoto == "" ? (
+      <div className="notification-body-content flex items-center p-5 ">
+        <div className="notification-img mr-2">
+          {profilePhoto === "" ? (
             <img
               src="http://localhost:3000/images/user.png"
-              className="notification-image"
+              className="notification-image rounded-full"
+              alt="Profile"
             />
           ) : (
             <img
@@ -94,24 +98,34 @@ const Notification = ({ notification, socket }) => {
                 "public\\",
                 ""
               )}`}
-              className="notification-image"
+              className="notification-image rounded-full"
+              alt="Profile"
             />
           )}
         </div>
-        <div className="notification-content">
-          <div className="notification-name">
-            <span className="font-poppins">
-              {username} send you a request
-            </span>
+        <div className="flex flex-col flex-grow">
+          <div className="notification-content flex items-center justify-between">
+            <div className="notification-name">
+              <span className="font-poppins">
+                <b>{username}</b> sent you friend request.{" "}
+              </span>
+            </div>
+            <div className="flex gap-x-2">
+              <button
+                className="bg-green-600 py-2 px-4 text-white font-poppins rounded-md transition-colors hover:bg-green-700"
+                onClick={acceptHandler}
+              >
+                Accept
+              </button>
+              <button
+                className="bg-red-600 py-2 px-4 text-white font-poppins rounded-md transition-colors hover:bg-red-700"
+                onClick={declineHandler}
+              >
+                Decline
+              </button>
+            </div>
           </div>
-          <div className="flex gap-x-3">
-            <button className="bg-green-600 py-2 px-4 text-white font-poppins" onClick={acceptHandler}>
-              Accept
-            </button>
-            <button className="bg-red-600 py-2 px-4 text-white font-poppins" onClick={declineHandler}>
-              Decline
-            </button>
-          </div>
+          {/* Add additional content or styling here if needed */}
         </div>
       </div>
     </>
