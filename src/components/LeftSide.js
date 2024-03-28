@@ -160,14 +160,14 @@ const LeftSide = ({ socket }) => {
         </div>
         {/* </Link> */}
         {/* icons  */}
-        <div className="w-full flex flex-col items-center justify-center ">
-          <div className="flex flex-col items-start justify-center gap-y-6 select-none ">
+        <div className="w-full flex flex-col items-center justify-center mx-20 ">
+          <div className="flex flex-col items-start justify-center gap-y-6 select-none w-full ">
             <Link to="/home">
-              <div className="flex flex-row rounded-md gap-x-2 w-full space-x-2 items-start justify-end select-none cursor-pointer hover:bg-[#eaeaeb] hover:text-black">
+              <div className="flex flex-row rounded-md gap-x-2 w-full space-x-2 items-start justify-end select-none cursor-pointer">
                 <i>
                   <IoChatbubblesSharp color="#2D99FF" size={25} />
                 </i>
-                <span className="font-poppins">Chats</span>
+                <span className="font-poppins hover:font-bold">Chats</span>
               </div>
             </Link>
 
@@ -176,7 +176,7 @@ const LeftSide = ({ socket }) => {
                 <i>
                   <MdGroups color="#2D99FF" size={25} />
                 </i>
-                <span className="font-poppins">Group</span>
+                <span className="font-poppins hover:font-bold">Group</span>
               </div>
             </Link>
 
@@ -185,7 +185,7 @@ const LeftSide = ({ socket }) => {
                 <i>
                   <MdExplore color="#2D99FF" size={25} />
                 </i>
-                <span className="font-poppins">Explore</span>
+                <span className="font-poppins hover:font-bold">Explore</span>
               </div>
             </Link>
 
@@ -203,7 +203,7 @@ const LeftSide = ({ socket }) => {
               <i>
                 <MdNotifications color="#2D99FF" size={25} />
               </i>
-              <span className="font-poppins">Notifications</span>
+              <span className="font-poppins hover:font-bold">Notifications</span>
             </div>
             {/* Render Notification component conditionally */}
 
@@ -214,7 +214,7 @@ const LeftSide = ({ socket }) => {
               <i>
                 <MdLogout color="#2D99FF" size={25} />
               </i>
-              <span className="font-poppins">Log out</span>
+              <span className="font-poppins hover:font-bold">Log out</span>
             </div>
           </div>
         </div>
@@ -238,7 +238,7 @@ const LeftSide = ({ socket }) => {
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-2xl">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none h-[28rem] lg:h-[30rem] pb-5 z-50">
+              <div className="border rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none h-[28rem] lg:h-[30rem] pb-5 z-50 ">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   {/* notification */}
@@ -262,21 +262,32 @@ const LeftSide = ({ socket }) => {
                   >
                     <IoMdCloseCircle
                       size={30}
-                      className="text-red-700 block cursor-pointer hover:text-red-900 my-1.5 rounded-md"
+                      className="text-red-600 block cursor-pointer hover:text-red-800 my-1.5 rounded-md"
                     />
                   </i>
                 </div>
                 <div>
-                  {notificationEvent.map((val) => (
-                    <>
-                      <Notification notification={val} socket={socket} />
-                    </>
-                  ))}
+                  {notificationEvent.length > 0 ? (
+                    notificationEvent.map((val) => (
+                      <Notification
+                        key={val.id}
+                        notification={val}
+                        socket={socket}
+                      />
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-80">
+                      <p className="text-xl font-bold text-gray-700">
+                        No new notifications
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          <div className="backdrop-blur-sm fixed inset-0 z-40"></div>
+
         </>
       ) : (
         ""

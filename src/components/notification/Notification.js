@@ -80,12 +80,20 @@ const Notification = ({ notification, socket }) => {
   };
 
   //decline handler
-  const declineHandler = () => {};
-
+  const declineHandler = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:5000/deleteNotification/${userId}`,
+    })
+      .then((result) => {})
+      .catch((error) => console.error(error.message));
+    window.location.reload();
+  }
+  
   return (
     <>
       <div className="notification-body-content flex items-center p-5 ">
-        <div className="notification-img mr-2">
+        <div className="notification-img mr-1">
           {profilePhoto === "" ? (
             <img
               src="http://localhost:3000/images/user.png"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftSide from "../../components/LeftSide";
 import Conversation from "../../components/message/FriendList";
 import Messagebox from "./messagebox";
@@ -19,12 +19,22 @@ import { HiUserGroup } from "react-icons/hi2";
 const CreateGCForm = ({ handleClose, addGroup }) => {
   const [groupName, setGroupName] = React.useState("");
   const [password, setPassword] = React.useState("");
+  // const [userID, setUserID] = useState("");
+
+  // useEffect(() => {
+  //   // Retrieve userID from localStorage
+  //   const storedUserID = localStorage.getItem("userID");
+  //   if (storedUserID) {
+  //     setUserID(storedUserID);
+  //   }
+  // }, []);
 
   const handleCreate = () => {
     // Prepare the group data to send to the backend
     const groupData = {
       groupName,
       password,
+      // createdBy: userID,
     };
 
     fetch(`http://localhost:5000/groups`, {
@@ -116,11 +126,11 @@ const GroupPage = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   const [groups, setGroups] = useState([
-    "Group A",
-    "Group B",
-    "Group C",
-    "Group D",
-    "Group E",
+    // "Group A",
+    // "Group B",
+    // "Group C",
+    // "Group D",
+    // "Group E",
   ]); // Initial list of groups
 
   const handleOpenGCDialog = () => {
@@ -135,9 +145,25 @@ const GroupPage = () => {
     setGroups([...groups, groupName]); // Add the new group to the list of groups
   };
 
+  // Fetch and display groups from the backend
+  useEffect(() => {
+    fetch(`http://localhost:5000/groups`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && Array.isArray(data.groups)) {
+          setGroups(data.groups); // Assuming data contains an array of groups from the backend
+        } else {
+          console.error("Invalid data format:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching groups:", error);
+      });
+  }, []);
+
   return (
     <>
-      <div className="flex items-center mt-10 ml-[9.65%]">
+      <div className="flex items-center mt-10 ml-[12%] ">
         <LeftSide />
       </div>
       <div className="flex flex-col w-[14%] items-center absolute top-20 ml-[30%]">
@@ -170,7 +196,7 @@ const GroupPage = () => {
                 ? "bg-orange text-white"
                 : "hover:bg-[#eaeaeb] hover:text-black"
             } w-[250px]`}
-            onClick={() => setSelectedGroup(group)}
+            onClick={() => setSelectedGroup(group.groupName)}
           >
             <div className="w-[40%]">
               <img
@@ -182,7 +208,7 @@ const GroupPage = () => {
             <div className="w-[100%] flex flex-col gap-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-poppins font-semibold max-[1067px]:text-xs">
-                  {group}
+                  {group.groupName}
                 </span>
               </div>
               <span className="text-xs font-poppins">Select to chat</span>
@@ -190,8 +216,8 @@ const GroupPage = () => {
           </div>
         ))}
       </div>
-      <div className="fixed top-10 right-10">
-        <Messagebox/>
+      <div className="absolute bottom-[10%] right-[-18%] h-[80vh] w-[70vw]">
+        <Messagebox />
       </div>
     </>
   );

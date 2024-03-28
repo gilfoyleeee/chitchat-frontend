@@ -102,11 +102,12 @@ function Explore({ socket }) {
       <div className="flex flex-col md:flex-row xl:w-[75%] 2xl:w-[80%] gap-x-4 p-0 md:p-5 mt-[-75px]">
         {/* LeftSide component */}
         <LeftSide socket={socket} />
+        <span className="text-3xl font-bold text-gray-900">Explore</span>
         {showExplore ? (
-          <div className="flex flex-col gap-y-2 items-start justify-center mt-10">
+          <div className="flex flex-col gap-y-2 mt-20 items-start justify-center mt-10">
             <span className="font-poppins font-bold text-xl">No user found</span>
             <img
-              src="http://localhost:3000/images/conversationSVG1.svg"
+              src="http://localhost:3000/images/empty_explore.svg"
               className="w-96 h-96" // Adjust width and height as needed
             />
           </div>

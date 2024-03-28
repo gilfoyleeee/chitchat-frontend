@@ -3,7 +3,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 
 const Messagebox = () => {
-  const [showConversation, setShowConversation] = useState(false);
+  const [showConversation, setShowConversation] = useState(true);
   const [friendProfilepic, setFriendProfilePic] = useState("");
   const chatRef = useRef(null);
   const messageCombo = []; // Dummy data for messageCombo
@@ -103,7 +103,7 @@ const Messagebox = () => {
                 </div>
 
                 {/* message body end */}
-                <div className="absolute w-[38%] bottom-0 h-16 pr-3 flex items-center">
+                <div className="absolute w-[66%] bottom-0 h-16 pr-3 flex items-center">
                   {/* chat input start */}
                   <form className="flex items-center w-full">
                     <div className="relative flex-1">

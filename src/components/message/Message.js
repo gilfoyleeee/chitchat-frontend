@@ -500,50 +500,54 @@ const Message = ({ socket }) => {
                   className="w-[100%] h-[27.5rem] bg-[#f9fafb] p-5 overflow-y-scroll"
                   ref={chatRef}
                 >
-                  {messageCombo.map((val, index) => (
-                    <div
-                      key={index}
-                      className={`mt-2 ${
-                        val.senderId === userId
-                          ? "flex justify-end"
-                          : "flex justify-start"
-                      }`}
-                    >
-                      <div className="flex gap-x-2">
-                        {val.senderId !== userId && ( // Render friend's profile pic for receiver's message
-                          <img
-                            src={`http://localhost:5000/${friendProfilepic.replace(
-                              "public\\",
-                              ""
-                            )}`}
-                            className="w-[3rem] h-[3rem] rounded-full"
-                          />
-                        )}
-                        <div
-                          className={`${
-                            val.senderId === userId // Check if sender is you (userId)
-                              ? "bg-gray-300 text-black rounded-md max-w-[70%] self-end"
-                              : "bg-orange text-white rounded-md max-w-[70%]"
-                          }`}
-                        >
-                          <span className="text-sm font-poppins p-2 ">
-                            {val.msg}
-                          </span>
-                          <div className="mt-2 bg-[#f9fafb] text-black">
-                            <span className="text-[0.65rem] font-poppins">
-                              {format(val.createdAt)}
+                  {messageCombo.length === 0 ? (
+                    <div className="mt-10 text-center font-bold text-gray-600">No messages yet</div>
+                  ) : (
+                    messageCombo.map((val, index) => (
+                      <div
+                        key={index}
+                        className={`mt-2 ${
+                          val.senderId === userId
+                            ? "flex justify-end"
+                            : "flex justify-start"
+                        }`}
+                      >
+                        <div className="flex gap-x-2">
+                          {val.senderId !== userId && ( // Render friend's profile pic for receiver's message
+                            <img
+                              src={`http://localhost:5000/${friendProfilepic.replace(
+                                "public\\",
+                                ""
+                              )}`}
+                              className="w-[3rem] h-[3rem] rounded-full"
+                            />
+                          )}
+                          <div
+                            className={`${
+                              val.senderId === userId // Check if sender is you (userId)
+                                ? "bg-gray-300 text-black rounded-md max-w-[70%] self-end"
+                                : "bg-orange text-white rounded-md max-w-[70%]"
+                            }`}
+                          >
+                            <span className="text-sm font-poppins p-2 ">
+                              {val.msg}
                             </span>
+                            <div className="mt-2 bg-[#f9fafb] text-black">
+                              <span className="text-[0.65rem] font-poppins">
+                                {format(val.createdAt)}
+                              </span>
+                            </div>
                           </div>
+                          {val.senderId === userId && ( // Render your profile pic for sender's message
+                            <img
+                              src="http://localhost:3000/images/user.png"
+                              className="w-[3rem] h-[3rem] rounded-full"
+                            />
+                          )}
                         </div>
-                        {val.senderId === userId && ( // Render your profile pic for sender's message
-                          <img
-                            src="http://localhost:3000/images/user.png"
-                            className="w-[3rem] h-[3rem] rounded-full"
-                          />
-                        )}
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
 
                 {/* message body end */}
